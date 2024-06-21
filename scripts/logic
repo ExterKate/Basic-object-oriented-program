@@ -1,0 +1,7 @@
+# Classificação do inimigo:
+Baseado em estrelas. Quanto maior o número de estrelas, mais difícil é enfrentar o inimigo.
+*:     "Aranha", nível: 1, HP: 10, ATK: 2,  DEF: 4.
+**:    "Aranha", nível: 1, HP: 12, ATK: 4,  DEF: 6.
+***:   "Aranha", nível: 1, HP: 14, ATK: 6,  DEF: 8.
+****:  "Aranha", nível: 1, HP: 16, ATK: 8,  DEF: 10.
+*****: "Aranha", nível: 1, HP: 18, ATK: 10, DEF: 12.
