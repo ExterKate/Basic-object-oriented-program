@@ -1,57 +1,72 @@
 import os
+from time import sleep
 from random import randint
+from data import *
 
-class Player:
-    def __init__(self, HP):
+class Pokemon:
+    def take_damage(self, target):
+        self.target = target
+
+    def __init__(self,
+                 name,
+                 type1,
+                 type2,
+                 level,
+                 current_exp,
+                 next_lvl):
+        #Basic stats
+        self.name = name
+        self.type1 = type1
+        self.type2 = type2
+        self.level = level
+
+        self.sex_chance = randint(1,2)
+        if self.sex_chance == 1:
+            self.sex = SEX[0]
+        elif self.sex_chance == 2:
+            self.sex = SEX[1]
+
+        #Advanced stats
+        self.hp = int
+        self.max_hp = int
+        self.current_exp = current_exp
+        self.next_lvl = next_lvl
+
+        #Battle stats
+        self.attack = int
+        self.special_atk = int
+        self.defense = int
+        self.special_def = int
+        self.speed = int
+
+        self.ID = randint(1, 9999)
+
+class Pokemon_index(Pokemon):
+    def __init__(self):
+        self.pokemons = []
+
+
+class Trainer:
+    def level_up(self):
+        pass
+
+    def __init__(self):
         self.name = str
-        self.HP = int
-        self.ATK = int
-        self.DEF = int
+        self.level = int
+        self.exp = int
 
-class Classes(Player):
-    def __init__(self, name=str, level=int, HP=int, ATK=int, DEF=int):
-        self.name = name
-        self.level = level
-        self.HP = HP
-        self.ATK = ATK
-        self.DEF = DEF
+        self.pokemons_owned = []
 
-class Enemy(Classes):
-    def __init__(self, name=str, level=int, HP=int, ATK=int, DEF=int):
-        self.name = name
-        self.level = level
-        self.HP = HP
-        self.ATK = ATK
-        self.DEF = DEF
+        if len(self.pokemons_owned) == 6:
+            pass
 
-class App(Classes):
-    def battle(self, a, b):
-        while a >= 0 and b >= 0:
-            print()
-            input("# ")
-        
-    def enemy_choice(self):
-        c = randint(1,3)
-        if c == 1:
-            return self.spider.name
-        elif c == 2:
-            return self.rat.name
-        elif c == 3:
-            return self.dog.name
-
-    def draw(self):
-        print("Xx"+40*"-"+"xX")
-
-    def clear(self):
-        os.system("cls")
-
+class App:
     def save(self):
         list = [
-            self.name,
-            str(self.classe.level),
-            str(self.classe.HP),
-            str(self.classe.ATK),
-            str(self.classe.DEF)
+            self.trainer.name,
+            self.trainer.level,
+            self.trainer.exp,
+
         ]
 
         self.f = open("load.txt", "w")
@@ -59,68 +74,100 @@ class App(Classes):
         for item in list:
             self.f.write(item + "\n")
         self.f.close()
+    
+    def draw(self):
+        print("Xx" + 40*"-" + "xX")
 
-    def playing(self):
-        self.clear()
-        r = self.enemy_choice()
-        print(f"You will fight with: {r}")
-        input("# ")
+    def clear(self):
+        os.system("cls")
 
-    def create_new(self):
-        self.clear()
-        self.name = input("Write your name: ")
-        print(f"Welcome to the Coliseum, {self.name}!")
-        self.draw()
-        print("Choose your class:")
-        print("(1) Warrior - HP = 10 | ATK = 6  | DEF = 4")
-        print("(2) Mage    - HP = 6  | ATK = 12 | DEF = 2")
-        print("(3) Ranger  - HP = 8  | ATK = 6  | DEF = 6")
+    def fight(self):
+        self.rival = Trainer()
+        self.rival.name = OTHER_TRAINERS[0]["name"]
 
-        r = input("# ")
+        print(f"{self.trainer.name}, you will fight VS {self.rival.name}!")
+        input("> ")
+
+    def pause_menu_show(self):
+        print("(1) Continue")
+        print("(2) Save")
+        print("(3) Quit")
+
+        r = input("> ")
 
         if r == "1":
-            self.classe = Classes("Warrior", 1, 10, 6, 4)
-            self.new = False
-            self.play = True
-        
+            pass
         elif r == "2":
-            self.classe = Classes("Mage", 1, 6, 12, 2)
+            pass
+        elif r == "3":
+            pass
+        else:
+            print("Unknow command.")
+            input("> ")
+
+    def create_new(self):
+        self.trainer.level = 1
+        self.trainer.exp = 0
+        self.clear()
+        self.draw()
+        print("Choose one of the starters: ")
+        print("(1) Bulbasaur")
+        print("(2) Charmander")
+        print("(3) Squirtle")
+        r = input("> ")
+
+        if r == "1":
+            self.starter = Pokemon(POKEMONS[0],
+                                   ELEMENT_TYPES[11],
+                                   ELEMENT_TYPES[3],
+                                   5,
+                                   0,
+                                   100)
+            self.trainer.pokemons_owned.append(POKEMONS[0])
+            self.c = False
             self.new = False
-            self.play = True
+            self.playing = True
+
+        elif r == "2":
+            self.trainer.pokemons_owned.append(POKEMONS[1])
+            self.c = False
+            self.new = False
+            self.playing = True
 
         elif r == "3":
-            self.classe = Classes("Ranger", 1, 8, 6, 6)
+            self.trainer.pokemons_owned.append(POKEMONS[2])
+            self.c = False
             self.new = False
-            self.play = True
+            self.playing = True
 
         else:
             print("Unknow command.")
+            sleep(1)
+    
+    def play(self):
+        self.clear()
+        print("Loading...")
+        print(self.trainer.pokemons_owned)
+        input("> ")
+        self.playing = False
+        self.battle = True
 
     def menu_show(self):
         self.clear()
-        print("1, New Game")
-        print("2, Load Game")
-        print("3, Quit Game")
-        
-        r = input("# ")
+        self.draw()
+        print("(1) New Game")
+        print("(2) Load Game")
+        print("(3) Exit")
+        r = input("> ")
 
         if r == "1":
             self.menu = False
             self.new = True
 
-        elif r == "2":
-            self.f = open("load.txt", "r")
-            self.load_list = self.f.readlines()
-            self.name = self.load_list[0][:-1]
-            self.level = self.load_list[1][:-1]
-            self.classe.HP = self.load_list[2][:-1]
-            self.classe.ATK = self.load_list[3][:-1]
-            self.classe.DEF = self.load_list[4][:-1]
+        if r == "2":
+            pass
 
-            print(self.name, self.classe.HP, self.classe.ATK, self.classe.DEF)
-            input("# ")
-
-        elif r == "3":
+        if r == "3":
             quit()
 
         else:
@@ -128,35 +175,45 @@ class App(Classes):
 
     def __init__(self):
         self.run = True
-        self.new = False
+        self.pause_menu = False
         self.menu = True
-        self.play = False
-        self.key = False
+        self.new = False
+        self.playing = False
+        self.battle = False
 
-        # Enemy's list
-        self.spider = Classes("Spider", 1, 4, 2, 1)
-        self.rat = Classes("Rat", 1, 2, 1, 1)
-        self.dog = Classes("Dog", 1, 8, 4, 2)
+        self.trainer = Trainer()
 
-        self.c = None
+        self.c = True
 
         while self.run:
+            while self.battle:
+                self.fight()
+
+            while self.pause_menu:
+                self.pause_menu_show()
 
             while self.menu:
                 self.menu_show()
 
             while self.new:
-                self.create_new()
+                self.clear()
+                self.draw()
+                print("What's your name, trainer?")
+                self.trainer.name = input("> ")
+                print(f"Welcome to the world Pokemon, {self.trainer.name.capitalize()}!")
+                sleep(2)
 
-            while self.play:
-                self.save()
-                self.playing()
+                while self.c:
+                    self.create_new()
 
-                self.r = input("# ")
+            while self.playing:
+                self.play()
 
-                if self.r == "0":
+                self.c = input("# ")
+
+                if self.c == "0":
                     self.play = False
-                    self.menu = True
-        
+                    self.pause_menu = True
+
 if __name__ == "__main__":
     app = App()

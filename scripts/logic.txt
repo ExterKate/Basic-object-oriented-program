@@ -5,3 +5,8 @@ Baseado em estrelas. Quanto maior o número de estrelas, mais difícil é enfren
 ***:   "Aranha", nível: 1, HP: 14, ATK: 6,  DEF: 8.
 ****:  "Aranha", nível: 1, HP: 16, ATK: 8,  DEF: 10.
 *****: "Aranha", nível: 1, HP: 18, ATK: 10, DEF: 12.
+
+# Ficha do personagem:
+HP = pontos de vida
+ATK = pontos de dano
+DEF = pontos de defesa
